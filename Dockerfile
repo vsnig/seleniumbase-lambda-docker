@@ -26,6 +26,11 @@ RUN perl -i -pe's/await asyncio.sleep\(0\.25\)/await asyncio.sleep\(2\.5\)/g' se
 
 FROM public.ecr.aws/lambda/python:3.13
 
+RUN dnf install -y atk cups-libs gtk3 libXcomposite alsa-lib \
+    libXcursor libXdamage libXext libXi libXrandr libXScrnSaver \
+    libXtst pango at-spi2-atk libXt xorg-x11-server-Xvfb \
+    xorg-x11-xauth dbus-glib dbus-glib-devel nss mesa-libgbm
+
 COPY --from=build /opt/chrome-linux64 /opt/chrome
 ENV PATH="/opt/chrome/:${PATH}"
 COPY --from=build ${LAMBDA_TASK_ROOT} ${LAMBDA_TASK_ROOT}
